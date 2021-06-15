@@ -1,4 +1,4 @@
-pipelineJob('backup') {
+pipelineJob('ci/backup') {
   displayName('backup')
   logRotator {
     numToKeep(15)
@@ -18,7 +18,7 @@ pipelineJob('backup') {
           }
         }
       }
-      scriptPath('backup/Jenkinsfile')
+      scriptPath('ci/backup/Jenkinsfile')
     }
   }
 }

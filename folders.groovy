@@ -1,6 +1,3 @@
-folder('backup') {
-  displayName('backup')
+folder('ci') {
+  displayName('ci')
 }
-//folder('restore') {
-//  displayName('restore')
-//}
