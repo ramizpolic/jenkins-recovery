@@ -1,14 +1,40 @@
 pipeline {
   agent any
+
   options {
     disableConcurrentBuilds()
     ansiColor('xterm')
   }
   
+  environment {
+    ARCHIVE_NAME = 'secrets'
+    DOWNLOAD_FOLDER = '/tmp'
+    GCLOUD_CREDENTIALS_ID ='<YOUR_CREDENTIALS_ID>'
+    GCLOUD_BUCKET = '<YOUR_BUCKET_NAME>'
+  }
+
   stages {
-    stage('Hello') {
+    // stage('Download secrets from GCS') {
+    //   steps {
+    //     step([$class: 'DownloadStep', 
+    //           credentialsId: env.GCLOUD_CREDENTIALS_ID,
+    //           bucketUri: "gs://${env.GCLOUD_BUCKET}/${env.ARCHIVE_NAME}-${REQUESTED_VERSION}.tgz", 
+    //           localDirectory: "${env.DOWNLOAD_FOLDER}"])
+    //   }
+    // }
+
+    stage('Unpack secrets') {
       steps {
-        echo "hello"
+        sh '''
+        cd ${JENKINS_HOME}
+        ARCHIVE_FILE="${DOWNLOAD_FOLDER}/${ARCHIVE_NAME}-${REQUESTED_VERSION}.tgz"
+
+        # unpack
+        tar xzvf ${ARCHIVE_FILE} -C ./
+
+        # delete
+        rm -rf ${ARCHIVE_FILE}
+        '''
       }
     }
   }

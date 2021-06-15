@@ -6,8 +6,13 @@ pipeline {
     ansiColor('xterm')
   }
   
+  triggers {
+      cron('30 2 * * *')
+  }
+
   environment {
-    ARCHIVE_NAME = 'secrets.tgz'
+    ARCHIVE_NAME = 'secrets'
+    ARCHIVE_PATTERN = "${ARCHIVE_NAME}-*.tgz"
     GCLOUD_CREDENTIALS_ID ='<YOUR_CREDENTIALS_ID>'
     GCLOUD_BUCKET = '<YOUR_BUCKET_NAME>'
   }
@@ -16,20 +21,28 @@ pipeline {
     stage('Pack secrets') {
       steps {
         sh '''
-
         cd ${JENKINS_HOME}
-        tar czvf ${ARCHIVE_NAME} secret* credentials.xml
+        VERSION_TIMESTAMP=$(date "+%Y%m%d-%H%M%S")
 
-        ls
-        
+        # pack
+        tar czvf ${ARCHIVE_NAME}-${VERSION_TIMESTAMP}.tgz secret* credentials.xml
         '''
       }
     }
 
-    //stage('Upload secrets to GCS') {
-    //  steps {
-    //    step([$class: 'ClassicUploadStep', credentialsId: env.GCLOUD_CREDENTIALS_ID,  bucket: "gs://${env.GCLOUD_BUCKET}", pattern: env.ARCHIVE_NAME])
-    //  }
-    //}
+    // stage('Upload secrets to GCS') {
+    //   steps {
+    //     step([$class: 'ClassicUploadStep', 
+    //             credentialsId: env.GCLOUD_CREDENTIALS_ID,
+    //             bucket: "gs://${env.GCLOUD_BUCKET}",
+    //             pattern: env.ARCHIVE_PATTERN])
+    //   }
+    // }
+
+    stage('Cleanup') {
+      steps {
+        sh 'rm -rf ${ARCHIVE_PATTERN}'
+      }
+    }
   }
 }
