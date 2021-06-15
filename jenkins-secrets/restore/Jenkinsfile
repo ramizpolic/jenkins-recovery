@@ -26,7 +26,9 @@ pipeline {
     stage('Unpack secrets') {
       steps {
         sh '''
+
         cd ${JENKINS_HOME}
+
         ARCHIVE_FILE="${DOWNLOAD_FOLDER}/${ARCHIVE_NAME}-${REQUESTED_VERSION}.tgz"
 
         # unpack
@@ -34,6 +36,7 @@ pipeline {
 
         # delete
         rm -rf ${ARCHIVE_FILE}
+        
         '''
       }
     }

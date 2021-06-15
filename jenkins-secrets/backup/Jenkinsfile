@@ -22,10 +22,13 @@ pipeline {
       steps {
         sh '''
         cd ${JENKINS_HOME}
+
+        # version tag
         VERSION_TIMESTAMP=$(date "+%Y%m%d-%H%M%S")
 
-        # pack
+        # pack archive
         tar czvf ${ARCHIVE_NAME}-${VERSION_TIMESTAMP}.tgz secret* credentials.xml
+
         '''
       }
     }
@@ -41,7 +44,16 @@ pipeline {
 
     stage('Cleanup') {
       steps {
-        sh 'rm -rf ${ARCHIVE_PATTERN}'
+        sh '''
+        cd ${JENKINS_HOME}
+
+        # show archives
+        find . -name "${ARCHIVE_PATTERN}"
+
+        # delete
+        rm -rf ${ARCHIVE_PATTERN}
+
+        '''
       }
     }
   }
