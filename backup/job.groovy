@@ -11,7 +11,7 @@ pipelineJob('backup') {
     cpsScm {
       scm {
         git {
-          branch('*/master')
+          branch('*/main')
           remote {
             url('https://github.com/fhivemind/jenkins-dr.git')
             credentials('github-fhivemind')
