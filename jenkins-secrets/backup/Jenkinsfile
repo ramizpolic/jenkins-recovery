@@ -1,15 +1,35 @@
 pipeline {
   agent any
+
   options {
     disableConcurrentBuilds()
     ansiColor('xterm')
   }
   
+  environment {
+    ARCHIVE_NAME = 'secrets.tgz'
+    GCLOUD_CREDENTIALS_ID ='<YOUR_CREDENTIALS_ID>'
+    GCLOUD_BUCKET = '<YOUR_BUCKET_NAME>'
+  }
+
   stages {
-    stage('Hello') {
+    stage('Pack secrets') {
       steps {
-        echo "hello"
+        sh '''
+
+        cd ${JENKINS_HOME}
+        tar czvf ${ARCHIVE_NAME} secret* credentials.xml
+
+        ls
+        
+        '''
       }
     }
+
+    //stage('Upload secrets to GCS') {
+    //  steps {
+    //    step([$class: 'ClassicUploadStep', credentialsId: env.GCLOUD_CREDENTIALS_ID,  bucket: "gs://${env.GCLOUD_BUCKET}", pattern: env.ARCHIVE_NAME])
+    //  }
+    //}
   }
 }
