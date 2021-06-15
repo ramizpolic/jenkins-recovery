@@ -8,7 +8,7 @@ pipelineJob('jenkins-secrets/restore') {
     disableConcurrentBuilds()
   }
   parameters {
-    string('REQUESTED_VERSION', '', 'Version of jenkins secrets to backup. Please check Google Cloud Storage to find available versions.')
+    stringParam('REQUESTED_VERSION', '', 'Version of jenkins secrets to backup. Please check Google Cloud Storage to find available versions.')
   }
   definition {
     cpsScm {
