@@ -1,3 +1,3 @@
-folder('ci') {
-  displayName('ci')
+folder('jenkins-secrets') {
+  displayName('jenkins-secrets')
 }
