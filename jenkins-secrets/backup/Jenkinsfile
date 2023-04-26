@@ -33,14 +33,14 @@ pipeline {
       }
     }
 
-    // stage('Upload secrets to GCS') {
-    //   steps {
-    //     step([$class: 'ClassicUploadStep', 
-    //             credentialsId: env.GCLOUD_CREDENTIALS_ID,
-    //             bucket: "gs://${env.GCLOUD_BUCKET}",
-    //             pattern: env.ARCHIVE_PATTERN])
-    //   }
-    // }
+    stage('Upload secrets to GCS') {
+      steps {
+        step([$class: 'ClassicUploadStep', 
+                credentialsId: env.GCLOUD_CREDENTIALS_ID,
+                bucket: "gs://${env.GCLOUD_BUCKET}",
+                pattern: env.ARCHIVE_PATTERN])
+      }
+    }
 
     stage('Cleanup') {
       steps {

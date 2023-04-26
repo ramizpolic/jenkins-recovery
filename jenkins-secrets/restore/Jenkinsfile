@@ -14,14 +14,14 @@ pipeline {
   }
 
   stages {
-    // stage('Download secrets from GCS') {
-    //   steps {
-    //     step([$class: 'DownloadStep', 
-    //           credentialsId: env.GCLOUD_CREDENTIALS_ID,
-    //           bucketUri: "gs://${env.GCLOUD_BUCKET}/${env.ARCHIVE_NAME}-${REQUESTED_VERSION}.tgz", 
-    //           localDirectory: "${env.DOWNLOAD_FOLDER}"])
-    //   }
-    // }
+    stage('Download secrets from GCS') {
+      steps {
+        step([$class: 'DownloadStep', 
+              credentialsId: env.GCLOUD_CREDENTIALS_ID,
+              bucketUri: "gs://${env.GCLOUD_BUCKET}/${env.ARCHIVE_NAME}-${REQUESTED_VERSION}.tgz", 
+              localDirectory: "${env.DOWNLOAD_FOLDER}"])
+      }
+    }
 
     stage('Unpack secrets') {
       steps {

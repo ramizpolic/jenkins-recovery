@@ -16,8 +16,7 @@ pipelineJob('jenkins-secrets/restore') {
         git {
           branch('*/main')
           remote {
-            url('https://github.com/fhivemind/jenkins-dr.git')
-            credentials('github-fhivemind')
+            url('https://github.com/fhivemind/jenkins-recovery.git')
           }
         }
       }
