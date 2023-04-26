@@ -11,6 +11,8 @@ GCLOUD_CREDENTIALS_ID ='<YOUR_CREDENTIALS_ID>'
 GCLOUD_BUCKET = '<YOUR_BUCKET_NAME>'
 ```
 
+When running Restore operations, you must provide `REQUESTED_VERSION` parameter through Jenkins UI.
+
 ## Customization
 
 Clone this project and import it as a Git Project in desired Jenkins instance.
